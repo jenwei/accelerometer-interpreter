@@ -1,3 +1,5 @@
+import numpy as np
+
 def magnitude(xyz):
     """Calculates the magnitude of the accleration vectors
     
