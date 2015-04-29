@@ -112,11 +112,12 @@ def extract_features(seg, do_hamming=True, dom_freq_method="autocorr"):
     -------
     features: array-like, length n_features
     """
-    # Unbiasing the Wave to make Spectrum amplitude at frequency 0, equal to 0
-    seg.unbias()
-
+    
     if do_hamming:
         seg.hamming()
+    
+    # Unbiasing the Wave to make Spectrum amplitude at frequency 0, equal to 0
+    seg.unbias()
 
     # Convert to Frequency Domain
     spectrum = seg.make_spectrum()
