@@ -36,6 +36,7 @@ def extract_features(
     window_size=30,
     step_size=15,
     n_windows=20,
+    do_windowing=True,
     dom_freq_method="autocorr"):
     """
     Arguments
@@ -55,6 +56,9 @@ def extract_features(
     n_windows: integer
         number of segments to extract. Equal to the length of the sequence of
         observations, obs.
+
+    do_windowing: boolean, default=True
+        whether to apply a hamming window to each segment before FFT.
 
     dom_freq_method: string, default, "autocorr"
         available strings:
@@ -77,6 +81,9 @@ def extract_features(
 
         # Unbiasing the Wave to make Spectrum amplitude at frequency 0, equal to 0
         seg.unbias()
+
+        if do_windowing:
+            seg.hamming()
 
         # Convert to Frequency Domain
         spectrum = seg.make_spectrum()
