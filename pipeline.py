@@ -100,3 +100,32 @@ def extract_features(
             )
 
     return np.column_stack((dom_freq, dom_amp))
+
+def learn(feature_dict):
+    """
+    Arguments
+    ---------
+    feature_dict: a dictionary of dictionaries
+        
+        feature_dict[activity]
+            will give a dictionary of data of all users for that activity
+        
+        feature_dict[activity][name]
+            will give a observation sequence, with shape (n_windows, n_features)
+            This is the output of the extract_features function
+
+    Returns
+    -------
+    models: a dictionary of models, for each activity
+    """
+    models = {}
+    n_components = 3
+    
+    for activity, activity_data_dict in feature_dict.iteritems():
+        Xs = []
+        for name, X in activity_data_dict.iteritems():
+            Xs.append(X)
+        models[activity] = GaussianHMM(n_components, covariance_type="diag", n_iter=1000)
+        models[activity].fit(Xs)
+
+    return models
